@@ -61,11 +61,11 @@ namespace DT.Colegio.Constantes {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a dbo.sp_ActualizarEstudiantes.
+        ///   Busca una cadena traducida similar a dbo.sp_ActualizarEstudiante.
         /// </summary>
-        public static string ActualizarEstudiantes {
+        public static string ActualizarEstudiante {
             get {
-                return ResourceManager.GetString("ActualizarEstudiantes", resourceCulture);
+                return ResourceManager.GetString("ActualizarEstudiante", resourceCulture);
             }
         }
         
