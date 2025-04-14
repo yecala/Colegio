@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{24F18CAD-7D43-4285-BD33-2B22C237E397}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Negocio", "Negocio", "{E6A61FEC-932D-45B2-B06B-0B0ED1BF6C5D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccesoDatos", "AccesoDatos", "{60CAC316-9634-4D50-9275-904E9809D319}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transversal", "Transversal", "{D29EC541-0333-4AA3-B47A-DD589F788F89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Colegio", "API.Colegio\API.Colegio.csproj", "{27581BAA-D3FF-4650-852F-2D2869F97330}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BM.Colegio", "BM.Colegio\BM.Colegio.csproj", "{9503A5E6-BAFE-4C4C-830D-407937B204D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DA.Colegio", "DA.Colegio\DA.Colegio.csproj", "{D3293B32-D56D-4803-940A-7D6DC0FE4F1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DT.Colegio", "DT.Colegio\DT.Colegio.csproj", "{F3861880-059E-4C5A-9E69-2073EE528CB6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27581BAA-D3FF-4650-852F-2D2869F97330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27581BAA-D3FF-4650-852F-2D2869F97330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27581BAA-D3FF-4650-852F-2D2869F97330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27581BAA-D3FF-4650-852F-2D2869F97330}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9503A5E6-BAFE-4C4C-830D-407937B204D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9503A5E6-BAFE-4C4C-830D-407937B204D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9503A5E6-BAFE-4C4C-830D-407937B204D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9503A5E6-BAFE-4C4C-830D-407937B204D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3293B32-D56D-4803-940A-7D6DC0FE4F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3293B32-D56D-4803-940A-7D6DC0FE4F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3293B32-D56D-4803-940A-7D6DC0FE4F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3293B32-D56D-4803-940A-7D6DC0FE4F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3861880-059E-4C5A-9E69-2073EE528CB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3861880-059E-4C5A-9E69-2073EE528CB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3861880-059E-4C5A-9E69-2073EE528CB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3861880-059E-4C5A-9E69-2073EE528CB6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{27581BAA-D3FF-4650-852F-2D2869F97330} = {24F18CAD-7D43-4285-BD33-2B22C237E397}
+		{9503A5E6-BAFE-4C4C-830D-407937B204D4} = {E6A61FEC-932D-45B2-B06B-0B0ED1BF6C5D}
+		{D3293B32-D56D-4803-940A-7D6DC0FE4F1D} = {60CAC316-9634-4D50-9275-904E9809D319}
+		{F3861880-059E-4C5A-9E69-2073EE528CB6} = {D29EC541-0333-4AA3-B47A-DD589F788F89}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4F630855-7213-41AC-9EE4-8C909EFD246F}
+	EndGlobalSection
+EndGlobal
