@@ -1,4 +1,5 @@
 ﻿using BM.Colegio.Interfaces;
+using BM.Colegio.Servicios;
 using DT.Colegio.Modelos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,87 +10,40 @@ namespace API.Colegio.Controllers
     [ApiController]
     public class EstudianteController : ControllerBase
     {
-        private readonly IEstudiante _estudianteService;
-        public EstudianteController(IEstudiante estudianteService) 
+        private readonly IEstudianteServicio _service;
+        public EstudianteController(IEstudianteServicio service) => _service = service;
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Estudiante>>> GetAll() => Ok(await _service.ObtenerTodos());
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Estudiante>> GetById(int id)
         {
-            _estudianteService = estudianteService;
+            var item = await _service.ObtenerPorId(id);
+            if (item == null) return NotFound();
+            return Ok(item);
         }
 
-        [HttpGet("ObtenerEstudiantePorId/{id}")]
-        public async Task<IActionResult> ObtenerEstudiantePorId(int id) 
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] Estudiante entity)
         {
-            if (id > 0)
-            {
-                Estudiante respuesta = _estudianteService.ObtenerEstudiantePorId(id);
-                return Ok(respuesta);
-            }
-            else
-            {
-                return StatusCode(400, "Solicitud inválida. Verifica los campos obligatorios.");
-            }
+            await _service.Insertar(entity);
+            return CreatedAtAction(nameof(GetById), new { id = entity.Id }, entity);
         }
 
-        [HttpGet("ObtenerEstudiantes")]
-        public async Task<IActionResult> ObtenerEstudiantes()
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(int id, [FromBody] Estudiante entity)
         {
-            List<Estudiante> respuesta = _estudianteService.ObtenerEstudiantes();
-            return Ok(respuesta);
-            
+            if (id != entity.Id) return BadRequest();
+            await _service.Actualizar(entity);
+            return NoContent();
         }
 
-        [HttpPost("InsertarEstudiante")]
-        public async Task<IActionResult> InsertarEstudiante([FromBody] Estudiante estudiante)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
-            if (!string.IsNullOrEmpty(estudiante.nombre) && !string.IsNullOrEmpty(estudiante.documento))
-            {
-                Boolean resultado =  _estudianteService.InsertarEstudiante(estudiante);
-
-                if (resultado)
-                    return StatusCode(201, "El estudiante ha sido creado correctamente");
-                else
-                    return StatusCode(500, "Ha ocurrido un error creando el estudiante");
-            }
-            else
-            {
-                return StatusCode(400, "Solicitud inválida. Verifica los campos obligatorios.");
-            }
+            await _service.Eliminar(id);
+            return NoContent();
         }
-
-        [HttpPatch("ActualizarEstudiante")]
-        public async Task<IActionResult> ActualizarEstudiante([FromBody] Estudiante estudiante)
-        {
-            if (estudiante.id > 0 && (!string.IsNullOrEmpty(estudiante.nombre) || !string.IsNullOrEmpty(estudiante.documento))) 
-            { 
-                bool resultado =  _estudianteService.ActualizarEstudiante(estudiante);
-
-                if (resultado)
-                    return Ok("El estudiante ha sido actualizado correctamente");
-                else
-                    return StatusCode(500, "Ha ocurrido un error actualizando el estudiante");
-            }
-            else
-            {
-                return StatusCode(400, "Solicitud inválida. Verifica los campos obligatorios.");
-            }
-        }
-
-        [HttpDelete("EliminarEstudiante/{id}")]
-        public async Task<IActionResult> EliminarEstudiante(int id)
-        {
-            if (id > 0)
-            {
-                bool resultado = _estudianteService.EliminarEstudiante(id);
-
-                if (resultado)
-                    return Ok("El estudiante ha sido eliminado correctamente");
-                else
-                    return StatusCode(500, "Ha ocurrido un error eliminando el estudiante");
-            }
-            else
-            {
-                return StatusCode(400, "Solicitud inválida. Verifica los campos obligatorios.");
-            }
-        }
-
     }
 }
