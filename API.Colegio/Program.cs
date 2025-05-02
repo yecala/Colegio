@@ -27,6 +27,7 @@ builder.Services.AddScoped<IMateriaRepositorio, MateriaRepositorio>();
 builder.Services.AddScoped<IEstudianteGradoRepositorio, EstudianteGradoRepositorio>();
 builder.Services.AddScoped<IMateriaPorGradoRepositorio, MateriaPorGradoRepositorio>();
 builder.Services.AddScoped<INotaRepositorio, NotaRepositorio>();
+builder.Services.AddScoped<ITransactionCoordinatorUnitOfWork, TransactionCoordinatorUnitOfWork>();
 
 // Registrar servicios genéricos y específicos
 builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));

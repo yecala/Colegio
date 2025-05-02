@@ -23,17 +23,20 @@ namespace BM.Colegio.Servicios
         private readonly IGradoRepositorio _gradoRepositorio;
         private readonly IMateriaRepositorio _materiaRepositorio;
         private readonly IDocenteRepositorio _docenteRepositorio;
+        private readonly ITransactionCoordinatorUnitOfWork _transactionCoordinatorUnitOfWork;
 
         public MateriaPorGradoServicio(
             IMateriaPorGradoRepositorio materiaPorGradoRepositorio,
             IGradoRepositorio gradoRepositorio,
             IMateriaRepositorio materiaRepositorio,
-            IDocenteRepositorio docenteRepositorio) :base(materiaPorGradoRepositorio)
+            IDocenteRepositorio docenteRepositorio,
+            ITransactionCoordinatorUnitOfWork transactionCoordinatorUnitOfWork) :base(materiaPorGradoRepositorio)
         {
             _materiaPorGradoRepositorio = materiaPorGradoRepositorio;
              _gradoRepositorio = gradoRepositorio;
             _materiaRepositorio = materiaRepositorio;
             _docenteRepositorio = docenteRepositorio;
+            _transactionCoordinatorUnitOfWork = transactionCoordinatorUnitOfWork;
         }
 
         // Sobrescribimos Insertar que recibe la entidad, si se llamara así
@@ -43,6 +46,53 @@ namespace BM.Colegio.Servicios
             await base.Insertar(entity);
         }
 
+        /*
+         *  Utilizando Unit of work
+         * 
+         */
+        public async Task Insertar(MateriaPorGradoDTO nuevaRelacion)
+        {
+            // Todo bajo control de EF (sin TransactionScope)
+            var grado = await _transactionCoordinatorUnitOfWork.GradoRepositorio.ObtenerPorId(nuevaRelacion.grado.id);
+            if (grado == null)
+            {
+                grado = new Grado { Nombre = nuevaRelacion.grado.nombre };
+                await _transactionCoordinatorUnitOfWork.GradoRepositorio.Insertar(grado);
+            }
+
+            var materia = await _transactionCoordinatorUnitOfWork.MateriaRepositorio.ObtenerPorId(nuevaRelacion.materia.id);
+            if (materia == null)
+            {
+                materia = new Materia { Nombre = nuevaRelacion.materia.nombre };
+                await _transactionCoordinatorUnitOfWork.MateriaRepositorio.Insertar(materia);
+            }
+
+            var docente = await _transactionCoordinatorUnitOfWork.DocenteRepositorio.ObtenerPorId(nuevaRelacion.docente.id);
+            if (docente == null)
+                throw new Exception("El docente no existe.");
+
+            var yaExiste = await _transactionCoordinatorUnitOfWork.MateriaPorGradoRepositorio
+                .ExisteRelacion(grado.Id, materia.Id);
+            if (yaExiste)
+                throw new Exception("Ya existe una relación entre ese grado y materia.");
+
+            var materiagrado = new MateriaPorGrado
+            {
+                MateriaId = materia.Id,
+                GradoId = grado.Id,
+                DocenteId = docente.Id
+            };
+
+            await _transactionCoordinatorUnitOfWork.MateriaPorGradoRepositorio.Insertar(materiagrado);
+
+            // Esta línea guarda todos los cambios en una sola transacción
+            await _transactionCoordinatorUnitOfWork.SaveChangesAsync();
+        }
+
+        /*
+         * TransactionScope
+         * 
+         * 
         // Override para personalizar la inserción de MateriaPorGrado
         public async Task Insertar(MateriaPorGradoDTO nuevaRelacion)
         {
@@ -106,7 +156,7 @@ namespace BM.Colegio.Servicios
                 }
             }
 
-        }
+        }*/
 
 
         public Task<List<MateriaPorGrado>> ObtenerMateriaPorGrado()

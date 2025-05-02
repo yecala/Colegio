@@ -1,6 +1,7 @@
 ﻿using BM.Colegio.Interfaces;
 using BM.Colegio.Servicios;
 using DT.Colegio.Modelos;
+using DT.Colegio.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,7 @@ namespace API.Colegio.Controllers
         private readonly IEstudianteServicio _service;
         public EstudianteController(IEstudianteServicio service) => _service = service;
 
-        [HttpGet]
+        [HttpGet("todos")]
         public async Task<ActionResult<IEnumerable<Estudiante>>> GetAll() => Ok(await _service.ObtenerTodos());
 
         [HttpGet("{id}")]
@@ -44,6 +45,13 @@ namespace API.Colegio.Controllers
         {
             await _service.Eliminar(id);
             return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEstudiantes([FromQuery] EstudianteDTO filtro)
+        {
+            var estudiantes = await _service.ObtenerEstudiantesFiltrados(filtro);
+            return Ok(estudiantes);
         }
     }
 }
